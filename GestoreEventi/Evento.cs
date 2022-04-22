@@ -146,5 +146,11 @@ namespace GestoreEventi
 
             return stampaEvento;
         }
+
+        public void stampaPosti()
+        {
+            Console.WriteLine("Numero di posti prenotati = " + GetNPostiPrenotati());
+            Console.WriteLine("Numero di posti disponibili = " + nPostiDisponibili());
+        }
     }
 }
