@@ -14,24 +14,17 @@ List<Evento> listaEvento = listaProgramma.GetEventi();
 int iterazione = 0;
 while(iterazione < nEventi) //aggiungo eventi alla mia lista
 {
-    Console.WriteLine("------- Nuovo Evento --------");
-    Console.Write("Inserisci il nome del" + (iterazione + 1) + "° evento: ");
-    string nome = Console.ReadLine();
-    Console.Write("Inserisci la data dell'evento (gg/mm/yyyy): ");
-    DateTime data = DateTime.Parse(Console.ReadLine());
-    Console.Write("Inserisci il numero di posti totali: ");
-    int postiTotali = int.Parse(Console.ReadLine());
+    Console.WriteLine("\nVuoi aggiungere un evento o una conferenza? ");
+    string risposta = Console.ReadLine();
 
-    Evento nuovoEvento = new Evento(nome, data, postiTotali);
-
-    if(nuovoEvento.eventoValido)
+    if(risposta == "evento")
     {
-        listaProgramma.AggiungiEvento(nuovoEvento);
-        iterazione++;
-    } else
+        EventoNuovo();
+    } else if (risposta == "conferenza")
     {
-        Console.WriteLine("\nRiprovare");
+        ConferenzaNuova();
     }
+    
 }
 
 Console.Clear();
@@ -84,23 +77,15 @@ while(true)
 
             Console.Clear();
 
-            Console.WriteLine("------- Nuovo Evento --------");
-            Console.Write("Inserisci il nome del" + (iterazione + 1) + "° evento: ");
-            string nome = Console.ReadLine();
-            Console.Write("Inserisci la data dell'evento (gg/mm/yyyy): ");
-            DateTime data = DateTime.Parse(Console.ReadLine());
-            Console.Write("Inserisci il numero di posti totali: ");
-            int postiTotali = int.Parse(Console.ReadLine());
+            Console.WriteLine("\nVuoi aggiungere un evento o una conferenza? ");
+            string risp = Console.ReadLine();
 
-            Evento nuovoEvento = new Evento(nome, data, postiTotali);
-
-            if(nuovoEvento.eventoValido)
+            if(risp == "evento")
             {
-                listaProgramma.AggiungiEvento(nuovoEvento);
-                iterazione++;
-            } else
+                EventoNuovo();
+            } else if(risp == "conferenza")
             {
-                Console.WriteLine("\nRiprovare");
+                ConferenzaNuova();
             }
 
             Console.ReadKey();
@@ -130,7 +115,19 @@ void Prenotazione(Evento evento)
 {
     Console.Write("\nQuanti posti desideri prenotare? ");
     int nPrenotazioni = int.Parse(Console.ReadLine());
-    evento.PrenotaPosti(nPrenotazioni);
+    try
+    {
+        evento.PrenotaPosti(nPrenotazioni);
+    } catch(InvalidTimeZoneException ex)
+    {
+        Console.WriteLine("La data inserita è nel passato");
+    } catch(ArgumentOutOfRangeException ex)
+    {
+        Console.WriteLine(ex.Message);
+    } catch (ArgumentNullException ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
 
     evento.stampaPosti();
 }
@@ -139,8 +136,19 @@ void Disdire(Evento evento)
 {
     Console.WriteLine("Quanti posti desideri disdire? ");
     int nCancellazioni = int.Parse(Console.ReadLine());
-
-    evento.DisdiciPosti(nCancellazioni);
+    try
+    {
+        evento.DisdiciPosti(nCancellazioni);
+    } catch(InvalidTimeZoneException e)
+    {
+        Console.WriteLine("La data di questo evento è nel passato");
+    } catch(ArgumentNullException e)
+    {
+        Console.WriteLine(e.Message);
+    } catch (ArgumentOutOfRangeException e)
+    {
+        Console.WriteLine(e.Message);
+    }
 
     evento.stampaPosti();
 }
@@ -192,6 +200,53 @@ void selezionaEvento()
             case 2:
                 break;
         }
+    }
+}
+
+void EventoNuovo()
+{
+    Console.WriteLine("------- Nuovo Evento --------");
+    Console.Write("Inserisci il nome del nuovo evento: ");
+    string nome = Console.ReadLine();
+    Console.Write("Inserisci la data dell'evento (gg/mm/yyyy): ");
+    DateTime data = DateTime.Parse(Console.ReadLine());
+    Console.Write("Inserisci il numero di posti totali: ");
+    int postiTotali = int.Parse(Console.ReadLine());
+
+    Evento nuovoEvento = new Evento(nome, data, postiTotali);
+
+    if(nuovoEvento.eventoValido)
+    {
+        listaProgramma.AggiungiEvento(nuovoEvento);
+        iterazione++;
+    } else
+    {
+        Console.WriteLine("\nRiprovare");
+    }
+}
+
+void ConferenzaNuova()
+{
+    Console.WriteLine("------- Nuova Conferenza --------");
+    Console.Write("Inserisci il nome della nuova conferenza: ");
+    string nome = Console.ReadLine();
+    Console.Write("Inserisci la data della conferenza (gg/mm/yyyy): ");
+    DateTime data = DateTime.Parse(Console.ReadLine());
+    Console.Write("Inserisci il numero di posti totali: ");
+    int postiTotali = int.Parse(Console.ReadLine());
+    Console.Write("Inserisci il relatore della conferenza: ");
+    string relatore = Console.ReadLine();
+    Console.Write("Inserisci il prezzo del biglietto della conferenza: ");
+    double prezzo = double.Parse(Console.ReadLine());
+
+    Evento nuovaConferenza = new Conferenza(nome, data, postiTotali, relatore, prezzo);
+    if(nuovaConferenza.eventoValido)
+    {
+        listaProgramma.AggiungiEvento(nuovaConferenza);
+        iterazione++;
+    } else
+    {
+        Console.WriteLine("\nRiprovare");
     }
 }
 
