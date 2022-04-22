@@ -12,6 +12,7 @@ namespace GestoreEventi
         private DateTime dataEvento; //lettura e scrittura
         private int MaxCapienza; //lettura
         private int nPostiPrenotati; //lettura
+        public bool eventoValido;
 
         //------getter e setter-----
         private void SetTitoloEvento(string titolo)
@@ -70,12 +71,14 @@ namespace GestoreEventi
         //------costruttore-------
         public Evento(string titolo, DateTime data, int maxCapienza)
         {
+            
             try
             {
                 SetTitoloEvento(titolo);
             } catch (ArgumentNullException e)
             {
                 Console.WriteLine("Non hai inserito nessun titolo! ERRORE:" + e.ParamName);
+                eventoValido = false;
             }
 
             try
@@ -84,6 +87,7 @@ namespace GestoreEventi
             } catch(InvalidTimeZoneException e)
             {
                 Console.WriteLine("La data inserita è nel passato!");
+                eventoValido = false;
             }
 
             try
@@ -92,9 +96,11 @@ namespace GestoreEventi
             } catch (ArgumentOutOfRangeException e)
             {
                 Console.WriteLine("Il numero inserito è negativo! ERRORE: " + e.ParamName);
+                eventoValido = false;
             }
 
             this.nPostiPrenotati = 0;
+            eventoValido = true;
         }
 
         //----------metodi---------
