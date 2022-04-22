@@ -9,7 +9,7 @@ namespace GestoreEventi
     internal class ProgrammaEventi
     {
         private string Titolo;
-        public List<Evento> Eventi;
+        private List<Evento> Eventi;
 
         public ProgrammaEventi(string titolo)
         {

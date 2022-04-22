@@ -43,44 +43,53 @@ DateTime FindData = DateTime.Parse(Console.ReadLine());
 ProgrammaEventi.stampaLista(listaProgramma.EventiInData(FindData));
 
 //------MILESTONE 1--------
-while(true)
-{
-    Console.WriteLine("\nVuoi prenotare o disdire un posto? (si/no)");
-    string risposta = Console.ReadLine();
+//Console.WriteLine("------- Nuovo Evento --------");
+//Console.Write("Inserisci il nome del" + (iterazione + 1) + "° evento: ");
+//string nome = Console.ReadLine();
+//Console.Write("Inserisci la data dell'evento (gg/mm/yyyy): ");
+//DateTime data = DateTime.Parse(Console.ReadLine());
+//Console.Write("Inserisci il numero di posti totali: ");
+//int postiTotali = int.Parse(Console.ReadLine());
 
-    Console.WriteLine("0 - Prenota");
-    Console.WriteLine("1 - Disdici");
+//Evento nuovoEvento = new Evento(nome, data, postiTotali);
+//while(true)
+//{
+//    Console.WriteLine("\nVuoi prenotare o disdire un posto? (si/no)");
+//    string risposta = Console.ReadLine();
 
-    risposta = Console.ReadLine();
-    switch(risposta)
-    {
-        case "0":
+//    Console.WriteLine("0 - Prenota");
+//    Console.WriteLine("1 - Disdici");
 
-            //Console.Clear();
+//    risposta = Console.ReadLine();
+//    switch(risposta)
+//    {
+//        case "0":
 
-            Console.Write("\nQuanti posti desideri prenotare? ");
-            int nPrenotazioni = int.Parse(Console.ReadLine());
+//            //Console.Clear();
 
-            nuovoEvento.PrenotaPosti(nPrenotazioni);
+//            Console.Write("\nQuanti posti desideri prenotare? ");
+//            int nPrenotazioni = int.Parse(Console.ReadLine());
 
-            nuovoEvento.stampaPosti();
-        break;
+//            nuovoEvento.PrenotaPosti(nPrenotazioni);
 
-        case "1":
+//            nuovoEvento.stampaPosti();
+//        break;
 
-            //Console.Clear();
+//        case "1":
 
-            Console.WriteLine("Quanti posti desideri disdire? ");
-            int nCancellazioni = int.Parse(Console.ReadLine());
+//            //Console.Clear();
+
+//            Console.WriteLine("Quanti posti desideri disdire? ");
+//            int nCancellazioni = int.Parse(Console.ReadLine());
             
-            nuovoEvento.DisdiciPosti(nCancellazioni);
+//            nuovoEvento.DisdiciPosti(nCancellazioni);
 
-            nuovoEvento.stampaPosti();            
-        break;
+//            nuovoEvento.stampaPosti();            
+//        break;
 
-        default:
-            Console.WriteLine("Errore");
-        break;
-    }
-}
+//        default:
+//            Console.WriteLine("Errore");
+//        break;
+//    }
+//}
 
