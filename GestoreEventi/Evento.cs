@@ -12,7 +12,7 @@ namespace GestoreEventi
         private DateTime dataEvento; //lettura e scrittura
         private int MaxCapienza; //lettura
         private int nPostiPrenotati; //lettura
-        public bool eventoValido;
+        public bool eventoValido = true;
 
         //------getter e setter-----
         private void SetTitoloEvento(string titolo)
@@ -58,11 +58,6 @@ namespace GestoreEventi
             }
         }
 
-        public int GetMaxCapienza()
-        {
-            return this.MaxCapienza;
-        }
-
         public int GetNPostiPrenotati()
         {
             return this.nPostiPrenotati;
@@ -100,7 +95,7 @@ namespace GestoreEventi
             }
 
             this.nPostiPrenotati = 0;
-            eventoValido = true;
+            
         }
 
         //----------metodi---------

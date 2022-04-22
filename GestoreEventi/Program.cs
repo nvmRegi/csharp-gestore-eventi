@@ -9,9 +9,10 @@ Console.Write("Indica il numero di eventi da inserire: ");
 int nEventi = int.Parse(Console.ReadLine());
 
 ProgrammaEventi listaProgramma = new ProgrammaEventi(nomeProgramma);
+List<Evento> listaEvento = listaProgramma.GetEventi();
 
 int iterazione = 0;
-while(iterazione < nEventi)
+while(iterazione < nEventi) //aggiungo eventi alla mia lista
 {
     Console.WriteLine("------- Nuovo Evento --------");
     Console.Write("Inserisci il nome del" + (iterazione + 1) + "° evento: ");
@@ -33,63 +34,164 @@ while(iterazione < nEventi)
     }
 }
 
-Console.WriteLine("Il numero di eventi nel programma è: " + listaProgramma.nEventi());
-
-listaProgramma.stampaListaConTitolo();
-
-Console.WriteLine("Inserisci una data per sapere che eventi ci saranno (gg/mm/yyyy): ");
-DateTime FindData = DateTime.Parse(Console.ReadLine());
-
-ProgrammaEventi.stampaLista(listaProgramma.EventiInData(FindData));
+Console.Clear();
 
 //------MILESTONE 1--------
-//Console.WriteLine("------- Nuovo Evento --------");
-//Console.Write("Inserisci il nome del" + (iterazione + 1) + "° evento: ");
-//string nome = Console.ReadLine();
-//Console.Write("Inserisci la data dell'evento (gg/mm/yyyy): ");
-//DateTime data = DateTime.Parse(Console.ReadLine());
-//Console.Write("Inserisci il numero di posti totali: ");
-//int postiTotali = int.Parse(Console.ReadLine());
+while(true)
+{
+    Console.WriteLine("\nCosa vuoi fare?");
 
-//Evento nuovoEvento = new Evento(nome, data, postiTotali);
-//while(true)
-//{
-//    Console.WriteLine("\nVuoi prenotare o disdire un posto? (si/no)");
-//    string risposta = Console.ReadLine();
+    Console.WriteLine("0 - Visualizza tutti gli eventi della lista");
+    Console.WriteLine("1 - Visualizza gli eventi di una data");
+    Console.WriteLine("2 - Aggiungi un nuovo evento alla lista");
+    Console.WriteLine("3 - Rimuovi tutti gli eventi del programma");
 
-//    Console.WriteLine("0 - Prenota");
-//    Console.WriteLine("1 - Disdici");
+    int risposta = int.Parse(Console.ReadLine());
+    
+    switch(risposta)
+    {
+        case 0:
 
-//    risposta = Console.ReadLine();
-//    switch(risposta)
-//    {
-//        case "0":
+            Console.Clear();
 
-//            //Console.Clear();
+            Console.WriteLine("Il numero di eventi nel programma è: " + listaProgramma.nEventi());
 
-//            Console.Write("\nQuanti posti desideri prenotare? ");
-//            int nPrenotazioni = int.Parse(Console.ReadLine());
+            Console.WriteLine(listaProgramma.stampaListaConTitolo());
 
-//            nuovoEvento.PrenotaPosti(nPrenotazioni);
+            selezionaEvento();
 
-//            nuovoEvento.stampaPosti();
-//        break;
+            Console.ReadKey();
+            Console.Clear();
+            break;
 
-//        case "1":
+        case 1:
 
-//            //Console.Clear();
+            Console.Clear();
 
-//            Console.WriteLine("Quanti posti desideri disdire? ");
-//            int nCancellazioni = int.Parse(Console.ReadLine());
-            
-//            nuovoEvento.DisdiciPosti(nCancellazioni);
+            Console.WriteLine("Inserisci una data per sapere che eventi ci saranno (gg/mm/yyyy): ");
+            DateTime FindData = DateTime.Parse(Console.ReadLine());
 
-//            nuovoEvento.stampaPosti();            
-//        break;
+            ProgrammaEventi.stampaLista(listaProgramma.EventiInData(FindData));
 
-//        default:
-//            Console.WriteLine("Errore");
-//        break;
-//    }
-//}
+            selezionaEvento();
+
+            Console.ReadKey();
+            Console.Clear();
+
+            break;
+
+        case 2:
+
+            Console.Clear();
+
+            Console.WriteLine("------- Nuovo Evento --------");
+            Console.Write("Inserisci il nome del" + (iterazione + 1) + "° evento: ");
+            string nome = Console.ReadLine();
+            Console.Write("Inserisci la data dell'evento (gg/mm/yyyy): ");
+            DateTime data = DateTime.Parse(Console.ReadLine());
+            Console.Write("Inserisci il numero di posti totali: ");
+            int postiTotali = int.Parse(Console.ReadLine());
+
+            Evento nuovoEvento = new Evento(nome, data, postiTotali);
+
+            if(nuovoEvento.eventoValido)
+            {
+                listaProgramma.AggiungiEvento(nuovoEvento);
+                iterazione++;
+            } else
+            {
+                Console.WriteLine("\nRiprovare");
+            }
+
+            Console.ReadKey();
+            Console.Clear();
+            break;
+        case 3:
+            Console.Clear();
+
+            listaProgramma.SvuotaLista();
+            Console.WriteLine("Hai rimosso tutti gli eventi di questo programma!");
+            break;
+
+        default:
+            Console.WriteLine("Errore");
+            break;
+    }
+}
+
+
+
+
+
+
+//-------FUNZIONI-------
+
+void Prenotazione(Evento evento)
+{
+    Console.Write("\nQuanti posti desideri prenotare? ");
+    int nPrenotazioni = int.Parse(Console.ReadLine());
+    evento.PrenotaPosti(nPrenotazioni);
+
+    evento.stampaPosti();
+}
+
+void Disdire(Evento evento)
+{
+    Console.WriteLine("Quanti posti desideri disdire? ");
+    int nCancellazioni = int.Parse(Console.ReadLine());
+
+    evento.DisdiciPosti(nCancellazioni);
+
+    evento.stampaPosti();
+}
+
+void selezionaEvento()
+{
+    Console.WriteLine("Vuoi selezionare un evento? (si/no) ");
+    string scelta = Console.ReadLine();
+
+    int indiceEvento = -1;
+
+    if(scelta == "si")
+    {
+        bool nomeGiusto = true;
+        do
+        {
+            Console.WriteLine("Inserisci il nome dell'evento da selezionare: ");
+            string nomeEvento = Console.ReadLine();
+
+            try
+            {
+                nomeGiusto = true;
+                indiceEvento = listaProgramma.selezionaEvento(nomeEvento);
+            } catch(ArgumentNullException e)
+            {
+                Console.WriteLine("Nome selezionato non valido.");
+                nomeGiusto = false;
+            }
+        } while(!nomeGiusto);
+
+
+        Console.WriteLine(listaEvento[indiceEvento].ToString());
+
+        listaEvento[indiceEvento].stampaPosti();
+
+        Console.WriteLine("\n0 - Prenotare posti");
+        Console.WriteLine("1 - Disdire posti");
+        Console.WriteLine("2 - Ritorna indietro");
+
+        int risposta = int.Parse(Console.ReadLine());
+        switch(risposta)
+        {
+            case 0:
+                Prenotazione(listaEvento[indiceEvento]);
+                break;
+            case 1:
+                Disdire(listaEvento[indiceEvento]);
+                break;
+            case 2:
+                break;
+        }
+    }
+}
 

@@ -11,6 +11,11 @@ namespace GestoreEventi
         private string Titolo;
         private List<Evento> Eventi;
 
+        public List<Evento> GetEventi()
+        {
+            return Eventi;
+        }
+
         public ProgrammaEventi(string titolo)
         {
             this.Titolo = titolo;
@@ -55,10 +60,37 @@ namespace GestoreEventi
             Eventi.Clear();
         }
 
-        public void stampaListaConTitolo()
+        public string stampaListaConTitolo()
         {
-            Console.WriteLine(this.Titolo + ":");
-            stampaLista(Eventi);
+            string stampaLista = "";
+
+            foreach(Evento evento in Eventi)
+            {
+                stampaLista += evento.ToString() + "\n";
+            }
+            
+            return stampaLista;
+        }
+
+        public int selezionaEvento(string nomeEvento)
+        {
+            int indiceNome = -1;
+            List<Evento> listaEvento = GetEventi();
+
+            for(int i = 0; i < listaEvento.Count; i++) //trovo evento tramite nome
+            {
+                if(listaEvento[i].GetTitoloEvento() == nomeEvento)
+                {
+                    indiceNome = i;
+                    break;
+                }
+            }
+            if(indiceNome == -1)
+            {
+                throw new ArgumentNullException(nomeEvento);
+            }
+
+            return indiceNome;
         }
     }
 }
