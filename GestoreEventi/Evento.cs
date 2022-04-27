@@ -60,34 +60,9 @@ namespace GestoreEventi
         //------costruttore-------
         public Evento(string titolo, DateTime data, int maxCapienza)
         {
-            
-            try
-            {
-                SetTitoloEvento(titolo);
-            } catch (ArgumentNullException e)
-            {
-                Console.WriteLine("Non hai inserito nessun titolo! ERRORE:" + e.ParamName);
-                eventoValido = false;
-            }
-
-            try
-            {
-                SetDataEvento(data);
-            } catch(InvalidTimeZoneException e)
-            {
-                Console.WriteLine("La data inserita è nel passato!");
-                eventoValido = false;
-            }
-
-            try
-            {
-                SetMaxCapienza(maxCapienza);
-            } catch (ArgumentOutOfRangeException e)
-            {
-                Console.WriteLine("Il numero inserito è negativo! ERRORE: " + e.ParamName);
-                eventoValido = false;
-            }
-
+            SetTitoloEvento(titolo);
+            SetDataEvento(data);
+            SetMaxCapienza(maxCapienza);
             this.nPostiPrenotati = 0;
             
         }
