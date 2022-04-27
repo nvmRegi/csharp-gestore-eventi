@@ -20,10 +20,8 @@ namespace GestoreEventi
             if(titolo == null)
             {
                 throw new ArgumentNullException(nameof(titolo));
-            } else
-            {
-                this.titoloEvento = titolo;
-            }
+            }           
+            this.titoloEvento = titolo;            
         }
 
         public string GetTitoloEvento()
@@ -36,10 +34,8 @@ namespace GestoreEventi
             if(data < DateTime.Now)
             {
                 throw new InvalidTimeZoneException(nameof(data));
-            } else
-            {
-                this.dataEvento = data;
-            }
+            } 
+            this.dataEvento = data;
         }
 
         public DateTime GetDataEvento()
@@ -49,13 +45,11 @@ namespace GestoreEventi
 
         private void SetMaxCapienza(int maxCapienza)
         {
-            if(maxCapienza < 0)
+            if(maxCapienza < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(maxCapienza));
-            } else
-            {
-                this.MaxCapienza = maxCapienza;
             }
+            this.MaxCapienza = maxCapienza;
         }
 
         public int GetNPostiPrenotati()
@@ -109,16 +103,20 @@ namespace GestoreEventi
             if(this.dataEvento < DateTime.Now)
             {
                 throw new InvalidTimeZoneException();
-            } else if(this.nPostiPrenotati + nPrenotazioni > this.MaxCapienza || this.nPostiPrenotati == this.MaxCapienza)
+            }
+            
+            if(this.nPostiPrenotati + nPrenotazioni > this.MaxCapienza)
             {
                 throw new ArgumentOutOfRangeException(nameof(MaxCapienza), "Limite posti disponibili");
-            } else if(nPrenotazioni == null)
+            }
+            
+            if(nPrenotazioni == null)
             {
                 throw new ArgumentNullException(nameof(nPrenotazioni));
-            } else
-            {
-                this.nPostiPrenotati += nPrenotazioni;
             }
+            
+                this.nPostiPrenotati += nPrenotazioni;
+            
         }
 
         public void DisdiciPosti(int nCancellazioni)
@@ -126,26 +124,23 @@ namespace GestoreEventi
             if(this.dataEvento < DateTime.Now)
             {
                 throw new InvalidTimeZoneException();
-            } else if(this.nPostiPrenotati - nCancellazioni < 0 || nPostiDisponibili() == 0)
+            }
+            
+            if(this.nPostiPrenotati - nCancellazioni < 0 || nPostiDisponibili() == 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(MaxCapienza), "Non ci sono prenotazioni da disdire");
-            } else if(nCancellazioni == null)
+            }
+            
+            if(nCancellazioni == null)
             {
                 throw new ArgumentNullException(nameof(nCancellazioni));
-            } else
-            {
-                this.nPostiPrenotati -= nCancellazioni;
-            }
+            } 
+            this.nPostiPrenotati -= nCancellazioni;
         }
 
         public override string ToString()
         {
-            string stampaEvento = "";
-
-            
-            stampaEvento += this.dataEvento.ToString("dd/MM/yyyy") + " - " + this.titoloEvento;
-
-            return stampaEvento;
+            return this.dataEvento.ToString("dd/MM/yyyy") + " - " + this.titoloEvento;
         }
 
         public void stampaPosti()
